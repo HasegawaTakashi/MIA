@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "mia"
+version = "0.1.0"
+description = ""
+authors = ["HasegawaTakashi <euphonium813@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+fastapi = {extras = ["all"], version = "^0.97.0"}
+boto3 = "^1.26.153"
+requests = "^2.31.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
