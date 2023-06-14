@@ -55,3 +55,10 @@ async def post_line_message():
         return {"error": "Failed to post message to API Gateway"}
 
     return response.json()
+
+@app.get("/test_line_message")
+async def output_message():
+    """
+    このメソッドでテスト的にLINEからのメッセージを表示させます。
+    """
+    pass
