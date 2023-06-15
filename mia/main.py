@@ -3,9 +3,20 @@ from fastapi.responses import HTMLResponse
 import requests
 import os
 from dotenv import load_dotenv
+from pydantic import BaseModel
+from typing import Optional
+from datetime import datetime
 
 app = FastAPI()
 load_dotenv()
+
+class LineMessage(BaseModel):
+    type: str
+    replyToken: str
+    source: dict
+    timestamp: int
+    message: dict
+    app_type: Optional[str] = None
 
 @app.get("/")
 async def root():
@@ -32,14 +43,22 @@ async def get_api_gw():
 
     return response.json()
 
-@app.get("/line_message")
-async def post_line_message():
+@app.post("/test_line_user")
+async def test_line_user(msg: LineMessage):
+    """
+        この関数はテスト用です。
+        このエンドポイントへLINEメッセージを転送してもDynamoDBへ保存できます。
+        curl -X POST -H "Content-Type: application/json" -d @data.json http://localhost:8000/test_line_user
+    """
     data = {
-    "message_id": "4",
-    "user_id": "1",
-    "type": "text",
-    "text": "you are shock !!!"
+    "user_id": msg.source['userId'],
+    "created_at": datetime.now().isoformat(),
+    "message_id": msg.message['id'],
+    "text": msg.message['text'],
+    "type": msg.type,
+    # "app_type": "line",
     }
+
 
     host_url = os.getenv('API_GW_URL')
     environment = os.getenv('DEVELOPMENT_ENVIRONMENT')
@@ -56,9 +75,4 @@ async def post_line_message():
 
     return response.json()
 
-@app.get("/test_line_message")
-async def output_message():
-    """
-    このメソッドでテスト的にLINEからのメッセージを表示させます。
-    """
-    pass
+    # return f"{msg.type}, {msg.replyToken}, {msg.source['userId']}, {msg.source['type']}, {msg.timestamp}, {msg.message['type']}, {msg.message['id']}, {msg.message['text']}"
