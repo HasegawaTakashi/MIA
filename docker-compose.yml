@@ -12,3 +12,13 @@ services:
         ports:
             - 8001:3000
         tty: true
+
+    backend:
+        build:
+            context: ./backend
+            dockerfile: Dockerfile
+        volumes:
+            - ./backend:/user/src/backend
+        ports:
+            - 8000:8000
+        tty: true
