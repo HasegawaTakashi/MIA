@@ -7,7 +7,7 @@ services:
         environment:
             - NODE_ENV=development
         volumes:
-            - ./frontend/:/usr/src/app
+            - ./frontend/:/usr/src/frontend
         command: sh -c 'yarn start'
         ports:
             - 8000:3000
