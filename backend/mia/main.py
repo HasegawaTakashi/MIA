@@ -64,7 +64,6 @@ async def test_line_user(msg: LineMessage):
     "message_id": msg.message['id'],
     "text": msg.message['text'],
     "type": msg.type,
-    # "app_type": "line",
     }
 
 
@@ -82,5 +81,3 @@ async def test_line_user(msg: LineMessage):
         return {"error": "Failed to post message to API Gateway"}
 
     return response.json()
-
-    # return f"{msg.type}, {msg.replyToken}, {msg.source['userId']}, {msg.source['type']}, {msg.timestamp}, {msg.message['type']}, {msg.message['id']}, {msg.message['text']}"
