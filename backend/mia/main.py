@@ -6,10 +6,18 @@ from dotenv import load_dotenv
 from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 load_dotenv()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # 全てのオリジンからのアクセスを許可（本番環境では具体的なオリジンを指定）
+    allow_credentials=True,
+    allow_methods=["*"],  # 全てのHTTPメソッドを許可
+    allow_headers=["*"],  # 全てのHTTPヘッダーを許可
+)
 class LineMessage(BaseModel):
     type: str
     replyToken: str
